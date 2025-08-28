@@ -5,7 +5,7 @@ services:
     image: auth-api:latest
     container_name: auth-api
     ports:
-      - "8080:8080"
+      - "8083:8083"
     networks:
       - app-net
 
@@ -13,7 +13,7 @@ services:
     image: frontend:latest
     container_name: frontend
     ports:
-      - "3000:80"
+      - "8084:80"
     networks:
       - app-net
 
