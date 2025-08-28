@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  auth-api:
+    build: ./auth-api
+    container_name: springboot_app
+    restart: always
+    ports:
+      - "8082:8082" 
+      
+  frontend:
+    build: ./frontend
+    container_name: react_app
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - auth-api
+
