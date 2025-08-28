@@ -1,19 +1,22 @@
-version: '3.9'
+version: "3.8"
 
 services:
-  auth-api:
-    build: ./auth-api
-    container_name: springboot_app
-    restart: always
+  backend:
+    image: auth-api:latest
+    container_name: auth-api
     ports:
-      - "8082:8082" 
-      
-  frontend:
-    build: ./frontend
-    container_name: react_app
-    restart: always
-    ports:
-      - "80:80"
-    depends_on:
-      - auth-api
+      - "8080:8080"
+    networks:
+      - app-net
 
+  frontend:
+    image: frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:80"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge
