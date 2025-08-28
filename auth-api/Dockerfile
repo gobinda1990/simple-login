@@ -1,13 +1,11 @@
-# Use an OpenJDK base image
-FROM openjdk:17-jdk-slim
-
-# Set working directory inside container
+# Stage 1: Build JAR
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
 WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Copy WAR file to container
-COPY target/auth-api.jar app.jar
-# Expose the port your app runs on (usually 8080)
-EXPOSE 8082
-
-# Run the Spring Boot app
+# Stage 2: Run JAR
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 ENTRYPOINT ["java", "-jar", "app.jar"]
